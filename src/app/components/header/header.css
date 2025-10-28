@@ -1,0 +1,39 @@
+.sidebar {
+    position: fixed;
+    left: 0;
+    width: 240px;
+    height: calc(100vh - 60px);
+    background-color: #F6F6F6;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+    z-index: 1000px;
+}
+
+
+
+.content-area {
+    margin-left: 240px;
+    margin-top: 60px;
+    padding: 20px;
+    background-color: #ffffff;
+    width: 100%;
+    min-height: calc(100vh - 60px);
+    transition: margin-left 0.3s ease;
+}
+
+
+.navbar {
+    height: 60px;
+    /* z-index: 90px; */
+}
+
+.btn:hover {
+    background-color: transparent;
+    border: none;
+}
+
+@media (max-width: 768px) {
+    .content-area {
+        margin-left: 0;
+    }
+}

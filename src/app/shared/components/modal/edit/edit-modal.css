@@ -1,0 +1,12 @@
+.modal {
+    background-color: rgba(0, 0, 0, 0.5);
+    /* semi-transparent dark background */
+    backdrop-filter: blur(8px);
+    /* the blur effect */
+    z-index: 1050;
+}
+
+.modal-dialog {
+    z-index: 1051;
+    /* ensure content stays above the blur layer */
+}

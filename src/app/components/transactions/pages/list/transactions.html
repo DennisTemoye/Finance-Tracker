@@ -1,0 +1,58 @@
+<div class="">
+    <div class="">
+        <div class="d-flex justify-content-between align-items-center">
+            <p class="fs-5 fw-bolder font-bold mb-4">Transaction List</p>
+
+            <div class="d-flex flex-wrap gap-4">
+                <button class="btn btn-dark " (click)="createTransaction($event)">
+                    <i class="bi bi-plus-circle me-2"></i>Add Transaction</button>
+            </div>
+        </div>
+
+        <div class=" rounded  p-4 bg-white">
+
+            <app-table [columns]="columns" [data]="transactions" [showActions]="true" (edit)="onEdit($event)"
+                (delete)="onDelete($event)" (select)="onSelect($event)"></app-table>
+        </div>
+        <app-create-modal [title]="'Create Transaction'" [visible]="showCreateModal" (closeModal)="closeModal()"
+            (saveChanges)="save()">
+
+            <form (ngSubmit)="createTransaction($event)">
+                <div class="mb-3">
+
+                    <label class="form-label">Account</label>
+                    <select class="form-select" [(ngModel)]="selectedAccountUser.account" name="account">
+                        <option *ngFor="let acc of accounts" [ngValue]="acc.name">{{ acc.name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Phone Number</label>
+                    <input type="text" class="form-control" name="phone" [(ngModel)]="newTransaction.phone">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Amount</label>
+                    <input type="text" class="form-control" name="amount" [(ngModel)]="newTransaction.amount">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Payment Method</label>
+                    <select class="form-select" name="method" [(ngModel)]="newTransaction.method">
+                        <option [value]="'Credit Card'">Credit Card</option>
+                        <option [value]="'Debit Card'">Debit Card</option>
+                        <option [value]="'PayPal'">PayPal</option>
+                        <option [value]="'Bank Transfer'">Bank Transfer</option>
+                    </select>
+
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Status</label>
+                    <select class="form-select" name="status" [(ngModel)]="newTransaction.status">
+                        <option [value]="'Failed'">Failed</option>
+                        <option [value]="'Pending'">Pending</option>
+                        <option [value]="'Successful'">Successful</option>
+                    </select>
+                </div>
+            </form>
+        </app-create-modal>
+    </div>

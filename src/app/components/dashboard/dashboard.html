@@ -1,0 +1,21 @@
+<div class="">
+    <div class="">
+        <p class="fs-5 fw-bolder font-bold mb-4">Dashboard Overview</p>
+        <!-- Account Cards -->
+        <div class="d-flex flex-wrap gap-4">
+            <app-card class="flex-grow-1" *ngFor="let stat of statistics" [title]="stat.label"
+                [content]="stat.value"></app-card>
+        </div>
+    </div>
+    <div class="border rounded mt-4 p-4 bg-white">
+
+        <canvas style="width: 100%; height: 400px;" class="pt-4" baseChart [data]="barChartData"
+            [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [type]="'bar'">
+        </canvas>
+    </div>
+
+    <div class=" rounded mt-4 p-4 bg-white">
+        <app-table [columns]="columns" [data]="transactions" [showActions]="true" (edit)="onEdit($event)"
+            (delete)="onDelete($event)" (select)="onSelect($event)" [enablePagination]="false"></app-table>
+    </div>
+</div>

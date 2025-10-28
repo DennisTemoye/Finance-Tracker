@@ -1,0 +1,47 @@
+<table class="table ">
+    <thead>
+        <tr>
+            <th class="" *ngFor="let column of columns">{{ column.label }}</th>
+            <th *ngIf="showActions">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let row of (enablePagination ? (data | paginate: { itemsPerPage: 5, currentPage: p }) : data)">
+            <ng-container *ngFor="let column of columns">
+                <td class="table-row py-3" *ngIf="column.key === 'index'">
+                    {{ indexOf(row) + 1 }}
+                </td>
+                <td style="font-size: 14px; " class="table-row py-3" *ngIf="column.key !== 'index'"
+                    [ngClass]="column.key === 'status' ? getStatusClass(row[column.key]) : ''">
+                    {{ column.key === 'amount' ? (row[column.key] | priceFormat) : row[column.key] }}
+                </td>
+            </ng-container>
+
+            <td style="font-size: 14px; " class=" d-flex gap-2 py-3" *ngIf="showActions">
+
+
+                <div class="dropdown">
+                    <button class="btn btn-light " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-three-dots-vertical"></i>
+
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" (click)="select.emit(row)">View</a></li>
+                        <li><a class="dropdown-item" (click)="delete.emit(row)">Delete</a></li>
+                        <li *ngIf="getIfActive(row.status)"><a class="dropdown-item"
+                                (click)="activate.emit(row)">Activate</a></li>
+                        <li *ngIf="!getIfActive(row.status)"><a class="dropdown-item"
+                                (click)="deactivate.emit(row)">Deactivate</a></li>
+                    </ul>
+                </div>
+
+            </td>
+
+
+        </tr>
+    </tbody>
+</table>
+<div class="d-flex justify-content-center mt-3">
+
+    <pagination-controls *ngIf="enablePagination" (pageChange)="p = $event"></pagination-controls>
+</div>

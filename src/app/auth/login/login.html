@@ -1,0 +1,38 @@
+<div style="height: 100vh;" class="d-flex flex-column justify-content-center ">
+    <div style="width: 30%;" class="mx-auto mt-5 p-4  rounded-3 ">
+        <h1 class="fs-2">Login</h1>
+        <p class="fs-6">Welcome Back</p>
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" formControlName="email" id="email"
+                    aria-describedby="emailHelp">
+                <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+                    class="text-danger small">
+                    Email is required
+                </div>
+
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" formControlName="password" id="password">
+                <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+                    class="text-danger small">
+                    Password is required
+                </div>
+            </div>
+
+            <div class="mb-3 form-check d-flex justify-content-between align-items-center fs-6">
+                <div>
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Remember me</label>
+                </div>
+                <a href="#">Forgot password?</a>
+
+            </div>
+            <button type="submit" class="btn btn-dark w-100" (click)="login($event)">Login</button>
+
+        </form>
+        <!-- <button (click)="toastr.success('Welcome to dashboard!')">Test Toast</button> -->
+    </div>
+</div>

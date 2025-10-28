@@ -1,0 +1,166 @@
+<div class="">
+    <div class="">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="fs-5 fw-bolder mb-4">Accounts List</h1>
+
+            <div class="d-flex flex-wrap gap-4">
+                <button class="btn btn-dark" (click)="openCreateModal()"> <i class="bi bi-plus-circle me-2"></i>Add
+                    Account</button>
+                <button class="btn btn-secondary" (click)="openCreditModal()">Deposit</button>
+                <button class="btn btn-danger" (click)="openDebitModal()">Withdraw</button>
+
+            </div>
+        </div>
+        <div class=" d-flex gap-3">
+            <div class="input-group w-25">
+                <!-- <span class="input-group-text bg-white border-0" id="basic-addon1"><i class="bi bi-search"></i></span> -->
+                <input type="text" class="form-control border-1 border-black" placeholder="Search Accounts..." />
+                <button class="btn btn-dark" type="button" id="button-addon2">Search</button>
+            </div>
+            <div class="input-group w-25">
+                <select class="form-select border-1 border-black">
+                    <option value="">Filter by Status</option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class=" rounded  p-4 bg-white">
+
+            <app-table [columns]="header" [data]="accounts" [showActions]="true" (edit)="onEdit($event)"
+                (delete)="onDelete($event)" (select)="onSelect($event)" (activate)="onActivate($event)"
+                (deactivate)="onDeactivate($event)"></app-table>
+
+
+            <app-create-modal [title]="'Add Account'" [formGroup]="accountForm" [visible]="showCreateModal"
+                (closeModal)="closeModal()" (saveChanges)="save()">
+
+                <form [formGroup]="accountForm" (ngSubmit)="save()">
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input type="text" class="form-control" name="name" formControlName="name"
+                            placeholder="Enter name" required>
+                        <div
+                            *ngIf="accountForm.get('name')?.invalid && (accountForm.get('name')?.touched || accountForm.get('name')?.dirty)">
+                            <small class="text-danger">Name is required.</small>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" formControlName="email" required
+                                placeholder="Enter email address">
+                            <div
+                                *ngIf="accountForm.get('email')?.invalid && (accountForm.get('email')?.touched || accountForm.get('email')?.dirty)">
+                                <small class="text-danger">Valid Email is required.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Phone Number</label>
+                        <input type="text" class="form-control" name="phone" formControlName="phone" required
+                            placeholder="Enter phone number">
+                        <div
+                            *ngIf="accountForm.get('phone')?.invalid && (accountForm.get('phone')?.touched || accountForm.get('phone')?.dirty)">
+                            <small class="text-danger">Phone Number is required.</small>
+                        </div>
+                    </div>
+
+
+
+                </form>
+            </app-create-modal>
+
+
+            <app-credit-account [title]="'Credit Account'" [FormGroup]="creditForm" [visible]="showCreditModal"
+                (closeModal)="closeCreditModal()" (withdraw)="withdrawAccount()" (saveChanges)="creditAccount()">
+
+                <form [formGroup]="creditForm" (ngSubmit)="creditAccount()">
+                    <div class="mb-3">
+                        <label class="form-label">Select Account</label>
+                        <select class="form-select" name="name" formControlName="name" required>
+                            <option [value]="null">Select Account</option>
+                            <option *ngFor="let account of accounts" [value]="account.id">{{ account.name }} - {{
+                                account.amount | priceFormat }}</option>
+                        </select>
+                        <div
+                            *ngIf="creditForm.get('name')?.invalid && (creditForm.get('name')?.touched || creditForm.get('name')?.dirty)">
+                            <small class="text-danger">Account is required.</small>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"> Amount</label>
+                        <input type="text" class="form-control" name="amount" formControlName="amount" required>
+                        <div
+                            *ngIf="creditForm.get('amount')?.invalid && (creditForm.get('amount')?.touched || creditForm.get('amount')?.dirty)">
+                            <small class="text-danger">Amount is required.</small>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Payment Method</label>
+                        <select class="form-select" name="method" formControlName="method" required>
+                            <option [value]="null">Select Payment Method</option>
+                            <option [value]="'Credit Card'">Credit Card</option>
+                            <option [value]="'Debit Card'">Debit Card</option>
+                            <option [value]="'PayPal'">PayPal</option>
+                            <option [value]="'Bank Transfer'">Bank Transfer</option>
+                        </select>
+                        <div
+                            *ngIf="creditForm.get('method')?.invalid && (creditForm.get('method')?.touched || creditForm.get('method')?.dirty)">
+                            <small class="text-danger">Payment Method is required.</small>
+                        </div>
+                    </div>
+
+
+                </form>
+            </app-credit-account>
+
+
+            <app-debit-account [title]="'Debit Account'" [formGroup]="withdrawForm" [visible]="showDebitModal"
+                (closeModal)="closeDebitModal()" (withdraw)="withdrawAccount()" (saveChanges)="withdrawAccount()">
+
+                <form [formGroup]="withdrawForm" (ngSubmit)="withdrawAccount()">
+                    <div class="mb-3">
+                        <label class="form-label">Select Account</label>
+                        <select class="form-select" name="name" formControlName="name" required>
+                            <option [value]="null">Select Account</option>
+                            <option *ngFor="let account of accounts" [value]="account.id">{{ account.name }} - {{
+                                account.amount | priceFormat }}</option>
+                        </select>
+                        <div
+                            *ngIf="withdrawForm.get('name')?.invalid && (withdrawForm.get('name')?.touched || withdrawForm.get('name')?.dirty)">
+                            <small class="text-danger">Account is required.</small>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Amount</label>
+                        <input type="text" class="form-control" name="amount" formControlName="amount" required>
+                        <div
+                            *ngIf="withdrawForm.get('amount')?.invalid && (withdrawForm.get('amount')?.touched || withdrawForm.get('amount')?.dirty)">
+                            <small class="text-danger">Amount is required.</small>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Payment Method</label>
+                        <select class="form-select" name="method" formControlName="method" required>
+                            <option [value]="null">Select Payment Method</option>
+                            <option [value]="'Credit Card'">Credit Card</option>
+                            <option [value]="'Debit Card'">Debit Card</option>
+                            <option [value]="'PayPal'">PayPal</option>
+                            <option [value]="'Bank Transfer'">Bank Transfer</option>
+                        </select>
+                        <div
+                            *ngIf="withdrawForm.get('method')?.invalid && (withdrawForm.get('method')?.touched || withdrawForm.get('method')?.dirty)">
+                            <small class="text-danger">Payment Method is required.</small>
+                        </div>
+                    </div>
+
+
+                </form>
+            </app-debit-account>
+        </div>
+    </div>
