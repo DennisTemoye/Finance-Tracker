@@ -121,7 +121,6 @@ export class DashboardComponent implements OnInit {
   updateChartData() {
     const allTransactions = this.dataService.getTransactions();
 
-    // Calculate actual monthly data from transactions
     const monthlyData = this.calculateMonthlyTransactions(allTransactions);
 
     this.barChartData = {
@@ -146,19 +145,15 @@ export class DashboardComponent implements OnInit {
   }
 
   calculateMonthlyTransactions(transactions: any[]) {
-    // Group transactions by month and calculate totals
     const income = [4500, 5200, 4800, 6100, 5800, 6300, 5900];
     const expenses = [2800, 3100, 2900, 3300, 3000, 3500, 3200];
 
-    // Process actual transaction data
     const successful = transactions.filter((t) => t.status === 'Successful');
     const failed = transactions.filter((t) => t.status === 'Failed');
 
-    // Update based on actual data or use realistic sample data
     const totalIncome = successful.reduce((sum, t) => sum + t.amount, 0);
     const totalExpenses = failed.reduce((sum, t) => sum + t.amount, 0);
 
-    // Add some variation to existing data based on actual totals
     const avgMonthlyIncome = totalIncome > 0 ? totalIncome / successful.length : 5000;
     const avgMonthlyExpense = totalExpenses > 0 ? totalExpenses / failed.length : 3200;
 
