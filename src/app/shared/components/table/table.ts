@@ -1,16 +1,15 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgForOf, NgClass, NgIf } from '@angular/common';
+import { NgForOf, NgClass, NgIf, CommonModule } from '@angular/common';
 import { PriceFormatPipe } from '../../price-format-pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
 @Component({
   selector: 'app-table',
-  imports: [NgForOf, NgClass, NgIf, PriceFormatPipe, NgxPaginationModule],
+  imports: [NgForOf, NgClass, NgIf, PriceFormatPipe, NgxPaginationModule, CommonModule],
   templateUrl: './table.html',
-  styleUrl: './table.css'
+  styleUrl: './table.css',
 })
 export class TableComponent {
-
-  @Input({ required: true }) columns: { key: string, label: string }[] = [];
+  @Input({ required: true }) columns: { key: string; label: string }[] = [];
   @Input({ required: true }) data: any[] = [];
   @Output() edit = new EventEmitter<any>();
   @Output() delete = new EventEmitter<any>();
@@ -36,5 +35,4 @@ export class TableComponent {
     return status !== 'Active';
   }
   p: number = 1;
-
 }

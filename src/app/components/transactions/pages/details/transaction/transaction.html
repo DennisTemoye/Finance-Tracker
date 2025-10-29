@@ -1,102 +1,151 @@
 <div class="">
+  <div class="">
     <div class="">
-        <div class="">
-            <div class=" mb-4">
-                <app-button label="Back" icon="bi-arrow-left-circle" styleClass="bg-white text-dark border-0"
-                    (click)="goBack()"></app-button>
-                <div class="mt-3">
-
-                    <h1 class="fs-5 fw-bolder">Transaction details</h1>
-                    <p class="fs-6">Your transaction details will be displayed here.</p>
-                </div>
-            </div>
-
-            <div class="  shadow-sm w-50 rounded-3 p-3">
-
-                <form class="container">
-                    <div class="row">
-
-                        <div class="mb-3 col">
-                            <p for="accountName" class="form-label fw-bold">Customer Name:</p>
-                            <p>{{ transaction?.name }}</p>
-
-                        </div>
-
-                        <div class="mb-3 col">
-                            <p for="accountEmail" class="form-label fw-bold">Phone Number:</p>
-                            <p>{{ transaction?.phone }}</p>
-
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="mb-3 col ">
-                            <p for="accountPhone" class="form-label fw-bold">Amount:</p>
-                            <p>{{ transaction?.amount | priceFormat }}</p>
-
-                        </div>
-
-                        <div class="mb-3 col">
-                            <p for="accountPhone" class="form-label fw-bold">Payment Status:</p>
-                            <p [ngClass]="$any(transaction?.status | statusColor)">{{ transaction?.status }}</p>
-
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="mb-3 col">
-                            <p for="accountPhone" class="form-label fw-bold">Payment Method:</p>
-                            <p>{{ transaction?.method }}</p>
-
-                        </div>
-                        <div class="mb-3 col">
-                            <p for="accountBalance" class="form-label fw-bold">Transaction Date:</p>
-                            <p>{{ transaction?.date}}</p>
-
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="mb-3 col">
-                            <app-button label="Edit Transaction" icon="bi-pencil-square" styleClass="btn-dark"
-                                (click)="editTransaction($event)"></app-button>
-                        </div>
-                        <app-edit-modal [title]="'Edit Transaction'" [visible]="showModal" (closeModal)="closeModal()"
-                            (saveChanges)="save()">
-
-                            <form>
-                                <div class="mb-3">
-                                    <label class="form-label">Name</label>
-                                    <input type="text" class="form-control"
-                                        (input)="transaction.name = $event.target.value" [value]="transaction.name"
-                                        name="name">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Phone Number</label>
-                                    <input type="text" class="form-control"
-                                        (input)="transaction.phone = $event.target.value" [value]="transaction.phone"
-                                        name="phone">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Balance</label>
-                                    <input type="text" class="form-control" [value]="transaction.amount"
-                                        (input)="transaction.amount = $event.target.value" name="balance">
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Status</label>
-                                    <select class="form-select" [(ngModel)]="transaction.status" name="status">
-                                        <option [ngValue]="'Failed'">Failed</option>
-                                        <option [ngValue]="'Pending'">Pending</option>
-                                        <option [ngValue]="'Successful'">Successful</option>
-                                    </select>
-                                </div>
-                            </form>
-                        </app-edit-modal>
-
-                    </div>
-
-                </form>
-            </div>
+      <div class="mb-4">
+        <app-button
+          label="Back"
+          icon="bi-arrow-left-circle"
+          styleClass="bg-white text-dark border-0"
+          (click)="goBack()"
+        ></app-button>
+        <div class="mt-3">
+          <h1 class="fs-4 fw-bolder">Transaction details</h1>
         </div>
+      </div>
 
+      <div class="border border-secondary rounded-3 p-4">
+        <form class="container">
+          <div class="row">
+            <div class="mb-3 col">
+              <p
+                for="accountName"
+                class="form-label fw-bold"
+                style="font-size: 16; font-weight: 700"
+              >
+                Customer Name:
+              </p>
+              <p style="font-size: 14px">{{ transaction?.name }}</p>
+            </div>
+
+            <div class="mb-3 col">
+              <p
+                for="accountEmail"
+                class="form-label fw-bold"
+                style="font-size: 16; font-weight: 700"
+              >
+                Phone Number:
+              </p>
+              <p style="font-size: 14px">{{ transaction?.phone }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="mb-3 col">
+              <p
+                for="accountPhone"
+                class="form-label fw-bold"
+                style="font-size: 16; font-weight: 700"
+              >
+                Amount:
+              </p>
+              <p style="font-size: 14px">{{ transaction?.amount | priceFormat }}</p>
+            </div>
+
+            <div class="mb-3 col">
+              <p
+                for="accountPhone"
+                class="form-label fw-bold"
+                style="font-size: 16; font-weight: 700"
+              >
+                Payment Status:
+              </p>
+              <p style="font-size: 14px" [ngClass]="$any(transaction?.status | statusColor)">
+                {{ transaction?.status }}
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="mb-3 col">
+              <p
+                for="accountPhone"
+                class="form-label fw-bold"
+                style="font-size: 16; font-weight: 700"
+              >
+                Payment Method:
+              </p>
+              <p style="font-size: 14px">{{ transaction?.method }}</p>
+            </div>
+            <div class="mb-3 col">
+              <p
+                for="accountBalance"
+                class="form-label fw-bold"
+                style="font-size: 16; font-weight: 700"
+              >
+                Transaction Date:
+              </p>
+              <p style="font-size: 14px">{{ transaction?.date }}</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="mb-3 col">
+              <app-button
+                label="Edit Transaction"
+                icon="bi-pencil-square"
+                styleClass="btn-dark"
+                (click)="editTransaction($event)"
+              ></app-button>
+            </div>
+            <app-edit-modal
+              [title]="'Edit Transaction'"
+              [visible]="showModal"
+              (closeModal)="closeModal()"
+              (saveChanges)="save()"
+            >
+              <form>
+                <div class="mb-3">
+                  <label class="form-label">Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    (input)="transaction.name = $event.target.value"
+                    [value]="transaction.name"
+                    name="name"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Phone Number</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    (input)="transaction.phone = $event.target.value"
+                    [value]="transaction.phone"
+                    name="phone"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Balance</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [value]="transaction.amount"
+                    (input)="transaction.amount = $event.target.value"
+                    name="balance"
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Status</label>
+                  <select class="form-select" [(ngModel)]="transaction.status" name="status">
+                    <option [ngValue]="'Failed'">Failed</option>
+                    <option [ngValue]="'Pending'">Pending</option>
+                    <option [ngValue]="'Successful'">Successful</option>
+                  </select>
+                </div>
+              </form>
+            </app-edit-modal>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>

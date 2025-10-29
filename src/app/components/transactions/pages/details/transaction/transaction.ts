@@ -8,12 +8,12 @@ import { Location, NgClass } from '@angular/common';
 import { StatusColorPipe } from '../../../../../shared/status-color-pipe';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
-import { CreateModal } from "../../../../../shared/components/modal/create/create";
+import { CreateModal } from '../../../../../shared/components/modal/create/create';
 @Component({
   selector: 'app-transaction',
   imports: [Button, EditModal, PriceFormatPipe, NgClass, StatusColorPipe, FormsModule],
   templateUrl: './transaction.html',
-  styleUrl: './transaction.css'
+  styleUrl: './transaction.css',
 })
 export class TransactionComponent implements OnInit {
   route: ActivatedRoute = inject(ActivatedRoute);
@@ -25,14 +25,14 @@ export class TransactionComponent implements OnInit {
   showModal: boolean = false;
   showCreateModal: boolean = false;
 
-  constructor(private location: Location) { }
-
-
+  constructor(private location: Location) {}
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id')!;
 
-    this.transaction = this.dataService.getTransactions().find(transaction => transaction.trans_id === this.id) || null;
+    this.transaction =
+      this.dataService.getTransactions().find((transaction) => transaction.trans_id === this.id) ||
+      null;
   }
 
   goBack() {
@@ -49,7 +49,7 @@ export class TransactionComponent implements OnInit {
   }
   save() {
     // Implement save logic here
-    this.toast.success('Account details updated successfully!', 'Success');
+    this.toast.success('Transaction details updated successfully!', 'Success');
 
     this.showModal = false;
   }
@@ -57,5 +57,4 @@ export class TransactionComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     this.transaction.amount = Number(input.value.replace(/,/g, ''));
   }
-
 }

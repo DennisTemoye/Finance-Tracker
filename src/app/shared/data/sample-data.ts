@@ -1,51 +1,221 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SampleDataService {
-
   getStatistics() {
     return [
       { label: 'Total Accounts', value: 12 },
       { label: 'Total Balance', value: '$25,000' },
       { label: 'Monthly Expenses', value: '$3,200' },
-      { label: 'Monthly Income', value: '$5,400' }
+      { label: 'Monthly Income', value: '$5,400' },
     ];
   }
 
   getTransactions() {
     return [
-      { trans_id: "T243", name: 'John Doe', phone: '123-456-7890', amount: 100, method: 'Credit Card', status: 'Successful', date: '2023-01-01' },
-      { trans_id: "T244", name: 'Jane Smith', phone: '987-654-3210', amount: 200, method: 'PayPal', status: 'Pending', date: '2023-01-02' },
-      { trans_id: "T245", name: 'Alice Johnson', phone: '555-555-5555', amount: 300, method: 'Bank Transfer', status: 'Failed', date: '2023-01-03' },
-      { trans_id: "T246", name: 'Bob Brown', phone: '444-444-4444', amount: 400, method: 'Credit Card', status: 'Successful', date: '2023-01-04' },
-      { trans_id: "T247", name: 'Charlie Davis', phone: '333-333-3333', amount: 500, method: 'PayPal', status: 'Pending', date: '2023-01-05' },
-      { trans_id: "T248", name: 'Diana Evans', phone: '222-222-2222', amount: 600, method: 'Bank Transfer', status: 'Failed', date: '2023-01-06' },
-      { trans_id: "T249", name: 'Ethan Foster', phone: '111-111-1111', amount: 700, method: 'Credit Card', status: 'Successful', date: '2023-01-07' },
-      { trans_id: "T250", name: 'Fiona Green', phone: '000-000-0000', amount: 800, method: 'PayPal', status: 'Pending', date: '2023-01-08' },
-      { trans_id: "T251", name: 'George Harris', phone: '999-999-9999', amount: 900, method: 'Bank Transfer', status: 'Failed', date: '2023-01-09' },
-      { trans_id: "T252", name: 'Hannah Irving', phone: '888-888-8888', amount: 1000, method: 'Credit Card', status: 'Successful', date: '2023-01-10' },
-      { trans_id: "T253", name: 'Ian Jackson', phone: '777-777-7777', amount: 1100, method: 'PayPal', status: 'Pending', date: '2023-01-11' },
-      { trans_id: "T254", name: 'Jack Kelly', phone: '666-666-6666', amount: 1200, method: 'Bank Transfer', status: 'Failed', date: '2023-01-12' }
+      {
+        trans_id: 'T243',
+        name: 'Chukwuemeka Okafor',
+        phone: '+234 801 234 5678',
+        amount: 100,
+        method: 'Credit Card',
+        status: 'Successful',
+        date: '2024-01-15 09:23:45',
+      },
+      {
+        trans_id: 'T244',
+        name: 'Adebayo Adeyemi',
+        phone: '+234 802 345 6789',
+        amount: 200,
+        method: 'PayPal',
+        status: 'Pending',
+        date: '2024-01-16 14:51:22',
+      },
+      {
+        trans_id: 'T245',
+        name: 'Ifeoma Nwosu',
+        phone: '+234 803 456 7890',
+        amount: 300,
+        method: 'Bank Transfer',
+        status: 'Failed',
+        date: '2024-01-17 08:12:33',
+      },
+      {
+        trans_id: 'T246',
+        name: 'Oluwatobi Oyinlola',
+        phone: '+234 804 567 8901',
+        amount: 400,
+        method: 'Credit Card',
+        status: 'Successful',
+        date: '2024-01-18 16:45:12',
+      },
+      {
+        trans_id: 'T247',
+        name: 'Chidinma Eze',
+        phone: '+234 805 678 9012',
+        amount: 500,
+        method: 'PayPal',
+        status: 'Pending',
+        date: '2024-01-19 11:30:58',
+      },
+      {
+        trans_id: 'T248',
+        name: 'Emmanuel Adebisi',
+        phone: '+234 806 789 0123',
+        amount: 600,
+        method: 'Bank Transfer',
+        status: 'Failed',
+        date: '2024-01-20 13:07:41',
+      },
+      {
+        trans_id: 'T249',
+        name: 'Funmilayo Ogbonna',
+        phone: '+234 807 890 1234',
+        amount: 700,
+        method: 'Credit Card',
+        status: 'Successful',
+        date: '2024-02-05 10:15:30',
+      },
+      {
+        trans_id: 'T250',
+        name: 'Oluwaseyi Adedeji',
+        phone: '+234 808 901 2345',
+        amount: 800,
+        method: 'PayPal',
+        status: 'Pending',
+        date: '2024-02-06 15:42:17',
+      },
+      {
+        trans_id: 'T251',
+        name: 'Aisha Mohammed',
+        phone: '+234 809 012 3456',
+        amount: 900,
+        method: 'Bank Transfer',
+        status: 'Failed',
+        date: '2024-02-07 09:58:24',
+      },
+      {
+        trans_id: 'T252',
+        name: 'Olumide Babatunde',
+        phone: '+234 810 123 4567',
+        amount: 1000,
+        method: 'Credit Card',
+        status: 'Successful',
+        date: '2024-02-08 12:33:55',
+      },
+      {
+        trans_id: 'T253',
+        name: 'Peace Chinasa',
+        phone: '+234 811 234 5678',
+        amount: 1100,
+        method: 'PayPal',
+        status: 'Pending',
+        date: '2024-02-09 17:20:14',
+      },
+      {
+        trans_id: 'T254',
+        name: 'Segun Akinyemi',
+        phone: '+234 812 345 6789',
+        amount: 1200,
+        method: 'Bank Transfer',
+        status: 'Failed',
+        date: '2024-02-10 08:45:36',
+      },
     ];
   }
 
   getAccounts() {
     return [
-      { id: "AC1", name: 'John Doe', email: 'john@example.com', phone: '123-456-7890', amount: 1000, status: 'Active' },
-      { id: "AC2", name: 'Jane Smith', email: 'jane@example.com', phone: '987-654-3210', amount: 2000, status: 'Inactive' },
-      { id: "AC3", name: 'Alice Johnson', email: 'alice@example.com', phone: '555-555-5555', amount: 3000, status: 'Active' },
-      { id: "AC4", name: 'Bob Brown', email: 'bob@example.com', phone: '444-444-4444', amount: 4000, status: 'Inactive' },
-      { id: "AC5", name: 'Charlie Davis', email: 'charlie@example.com', phone: '333-333-3333', amount: 5000, status: 'Active' },
-      { id: "AC6", name: 'Diana Evans', email: 'diana@example.com', phone: '222-222-2222', amount: 6000, status: 'Inactive' },
-      { id: "AC7", name: 'Ethan Foster', email: 'ethan@example.com', phone: '111-111-1111', amount: 7000, status: 'Active' },
-      { id: "AC8", name: 'Fiona Green', email: 'fiona@example.com', phone: '000-000-0000', amount: 8000, status: 'Inactive' },
-      { id: "AC9", name: 'George Harris', email: 'george@example.com', phone: '999-999-9999', amount: 9000, status: 'Active' },
-      { id: "AC10", name: 'Hannah Irving', email: 'hannah@example.com', phone: '888-888-8888', amount: 10000, status: 'Inactive' },
-      { id: "AC11", name: 'Ian Jackson', email: 'ian@example.com', phone: '777-777-7777', amount: 11000, status: 'Active' }
+      {
+        id: 'AC1',
+        name: 'Chukwuemeka Okafor',
+        email: 'chukwuemeka.okafor@gmail.com',
+        phone: '+234 801 234 5678',
+        amount: 1000,
+        status: 'Active',
+      },
+      {
+        id: 'AC2',
+        name: 'Adebayo Adeyemi',
+        email: 'adebayo.adeyemi@yahoo.com',
+        phone: '+234 802 345 6789',
+        amount: 2000,
+        status: 'Inactive',
+      },
+      {
+        id: 'AC3',
+        name: 'Ifeoma Nwosu',
+        email: 'ifeoma.nwosu@outlook.com',
+        phone: '+234 803 456 7890',
+        amount: 3000,
+        status: 'Active',
+      },
+      {
+        id: 'AC4',
+        name: 'Oluwatobi Oyinlola',
+        email: 'oluwatobi.oyinlola@gmail.com',
+        phone: '+234 804 567 8901',
+        amount: 4000,
+        status: 'Inactive',
+      },
+      {
+        id: 'AC5',
+        name: 'Chidinma Eze',
+        email: 'chidinma.eze@gmail.com',
+        phone: '+234 805 678 9012',
+        amount: 5000,
+        status: 'Active',
+      },
+      {
+        id: 'AC6',
+        name: 'Emmanuel Adebisi',
+        email: 'emmanuel.adebisi@yahoo.com',
+        phone: '+234 806 789 0123',
+        amount: 6000,
+        status: 'Inactive',
+      },
+      {
+        id: 'AC7',
+        name: 'Funmilayo Ogbonna',
+        email: 'funmilayo.ogbonna@gmail.com',
+        phone: '+234 807 890 1234',
+        amount: 7000,
+        status: 'Active',
+      },
+      {
+        id: 'AC8',
+        name: 'Oluwaseyi Adedeji',
+        email: 'oluwaseyi.adedeji@outlook.com',
+        phone: '+234 808 901 2345',
+        amount: 8000,
+        status: 'Inactive',
+      },
+      {
+        id: 'AC9',
+        name: 'Aisha Mohammed',
+        email: 'aisha.mohammed@gmail.com',
+        phone: '+234 809 012 3456',
+        amount: 9000,
+        status: 'Active',
+      },
+      {
+        id: 'AC10',
+        name: 'Olumide Babatunde',
+        email: 'olumide.babatunde@yahoo.com',
+        phone: '+234 810 123 4567',
+        amount: 10000,
+        status: 'Inactive',
+      },
+      {
+        id: 'AC11',
+        name: 'Peace Chinasa',
+        email: 'peace.chinasa@gmail.com',
+        phone: '+234 811 234 5678',
+        amount: 11000,
+        status: 'Active',
+      },
     ];
-
   }
-
 }
