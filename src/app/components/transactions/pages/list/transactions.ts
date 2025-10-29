@@ -70,13 +70,13 @@ export class TransactionsComponent implements OnInit {
   save() {
     console.log({ ...this.newTransaction });
 
-    this.transactions.push({
+    this.transactions.unshift({
       ...this.newTransaction,
-      trans_id: 'TX' + (this.transactions.length + 1).toString().padStart(4, '0'),
+      trans_id: 'TX' + (this.transactions.length + 1).toString(),
       date: new Date().toISOString().split('T')[0],
       name: this.selectedAccountUser.account,
     });
-    this.applyFilters(); // Refresh filtered list
+    this.applyFilters();
     this.showCreateModal = true;
     this.toast.success('Transaction created successfully!', 'Success');
 

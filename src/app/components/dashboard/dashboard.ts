@@ -51,8 +51,14 @@ export class DashboardComponent implements OnInit {
   statistics = [
     { label: 'Total Accounts', value: this.dataService.getAccounts().length },
     { label: 'Total Balance', value: this.priceFormat.transform(this.totalBalance) },
-    { label: 'Monthly Expenses', value: this.priceFormat.transform(3200) },
-    { label: 'Monthly Income', value: this.priceFormat.transform(5400) },
+    {
+      label: 'Monthly Expenses',
+      value: this.priceFormat.transform(this.calculateMonthlyStats().monthlyExpenses),
+    },
+    {
+      label: 'Monthly Income',
+      value: this.priceFormat.transform(this.calculateMonthlyStats().monthlyIncome),
+    },
   ];
 
   public barChartLegend = true;

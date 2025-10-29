@@ -121,9 +121,9 @@ export class AccountsComponent implements OnInit {
     console.log('Creating account with form values:', this.accountForm.value);
     console.log('Creating account:', { ...this.accountForm.value });
 
-    this.accounts.push({
+    this.accounts.unshift({
       ...this.accountForm.value,
-      id: 'AC' + (this.accounts.length + 1).toString().padStart(4, '0'),
+      id: 'AC' + (this.accounts.length + 1).toString(),
       status: 'Inactive',
     });
     this.applyFilters();
