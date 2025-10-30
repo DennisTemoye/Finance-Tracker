@@ -34,6 +34,20 @@
             <app-table [columns]="columns" [data]="filteredTransactions" [showActions]="true" (edit)="onEdit($event)"
                 (delete)="onDelete($event)" (select)="onSelect($event)" [showActivateButton]="false"></app-table>
         </div>
+
+
+        <app-confirmation [title]="'Are you sure?'" [message]="'Are you sure you want to delete this account?'"
+            [visible]="showConfirmationModal" (cancel)="closeConfirmationModal()" (saveChanges)="onConfirm()"
+            confirmText="Yes, delete">
+        </app-confirmation>
+        <app-confirmation [title]="'Are you sure?'" [message]="'Are you sure you want to activate this account?'"
+            [visible]="showActivateConfirmationModal" (cancel)="closeActivateConfirmationModal()"
+            (saveChanges)="onConfirmActivate()" confirmText="Yes, activate">
+        </app-confirmation>
+        <app-confirmation [title]="'Are you sure?'" [message]="'Are you sure you want to deactivate this account?'"
+            [visible]="showDeactivateConfirmationModal" (cancel)="closeDeactivateConfirmationModal()"
+            (saveChanges)="onConfirmDeactivate()" confirmText="Yes, deactivate">
+        </app-confirmation>
         <app-create-modal [title]="'Create Transaction'" [visible]="showCreateModal" (closeModal)="closeModal()"
             (saveChanges)="save()">
             <form (ngSubmit)="createTransaction($event)">

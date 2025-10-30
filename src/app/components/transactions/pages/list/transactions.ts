@@ -6,10 +6,11 @@ import { CreateModal } from '../../../../shared/components/modal/create/create';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { NgForOf } from '@angular/common';
+import { Confirmation } from "../../../../shared/components/modal/confirmation/confirmation";
 
 @Component({
   selector: 'app-transactions',
-  imports: [TableComponent, CreateModal, FormsModule, NgForOf],
+  imports: [TableComponent, CreateModal, FormsModule, NgForOf, Confirmation],
   templateUrl: './transactions.html',
   styleUrl: './transactions.css',
 })
@@ -33,6 +34,11 @@ export class TransactionsComponent implements OnInit {
 
   searchTerm: string = '';
   statusFilter: string = '';
+  confirmationMessage: string = '';
+  showActivateConfirmationModal: boolean = false
+  showDeactivateConfirmationModal: boolean = false
+  newEvent: any;
+  showConfirmationModal: boolean = false;
 
   ngOnInit(): void {
     this.transactions = this.dataService.getTransactions();
@@ -42,18 +48,23 @@ export class TransactionsComponent implements OnInit {
     console.log('Edit transaction:', transaction);
   }
 
-
   onDelete($event: any) {
-    console.log('Deleting transaction:', $event);
-    const index = this.transactions.indexOf(this.transactions.find((trans) => trans.trans_id === $event.trans_id)!);
-    console.log('Index to delete:', index);
-    if (index > -1) {
-      this.transactions.splice(index, 1);
-      this.applyFilters();
-      this.toast.success('Transaction deleted successfully!', 'Success');
-    }
+    this.newEvent = $event
+    this.showConfirmationModal = true;
 
   }
+
+  // onDelete($event: any) {
+  //   console.log('Deleting transaction:', $event);
+  //   const index = this.transactions.indexOf(this.transactions.find((trans) => trans.trans_id === $event.trans_id)!);
+  //   console.log('Index to delete:', index);
+  //   if (index > -1) {
+  //     this.transactions.splice(index, 1);
+  //     this.applyFilters();
+  //     this.toast.success('Transaction deleted successfully!', 'Success');
+  //   }
+
+  // }
   onSelect($event: any) {
     this.router.navigate(['/transactions', $event.trans_id]);
     return (
@@ -120,5 +131,50 @@ export class TransactionsComponent implements OnInit {
     this.searchTerm = '';
     this.statusFilter = '';
     this.filteredTransactions = [...this.transactions];
+  }
+
+  closeConfirmationModal() {
+    this.showConfirmationModal = false;
+  }
+
+  onConfirm() {
+    const index = this.transactions.indexOf(this.transactions.find((trans) => trans.trans_id === this.newEvent.trans_id)!);
+    console.log('Transaction index to delete:', index);
+    if (index > -1) {
+      this.transactions.splice(index, 1);
+      this.applyFilters();
+      this.toast.success('Transaction deleted successfully!', 'Success');
+    }
+    this.closeConfirmationModal();
+
+  }
+  closeActivateConfirmationModal() {
+    this.showActivateConfirmationModal = false;
+  }
+  onConfirmActivate() {
+    console.log('Confirmed activation for account:', this.newEvent);
+    if (this.accounts.length > 0) {
+      const account = this.accounts.find((account) => account.id === this.newEvent.id);
+      if (account) {
+        account.status = 'Active';
+        this.toast.success('Account activated successfully!', 'Success');
+      }
+    }
+
+    this.closeActivateConfirmationModal();
+  }
+  closeDeactivateConfirmationModal() {
+    this.showDeactivateConfirmationModal = false;
+  }
+  onConfirmDeactivate() {
+    console.log('Confirmed deactivation for account:', this.newEvent);
+    if (this.accounts.length > 0) {
+      const account = this.accounts.find((account) => account.id === this.newEvent.id);
+      if (account) {
+        account.status = 'Inactive';
+        this.toast.success('Account deactivated successfully!', 'Success');
+      }
+    }
+    this.closeDeactivateConfirmationModal();
   }
 }
