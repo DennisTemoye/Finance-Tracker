@@ -48,10 +48,11 @@ export class TransactionsComponent implements OnInit {
     console.log('Edit transaction:', transaction);
   }
 
-  onDelete($event: any) {
+  onDelete($event: any): void {
     this.newEvent = $event
     this.showConfirmationModal = true;
-
+    console.log('Requesting delete for transaction:', $event);
+    console.log('Transaction to delete:', this.showConfirmationModal);
   }
 
   // onDelete($event: any) {
@@ -134,7 +135,11 @@ export class TransactionsComponent implements OnInit {
   }
 
   closeConfirmationModal() {
+    console.log('Closing confirmation modal without action.');
     this.showConfirmationModal = false;
+    this.newEvent = null;
+    console.log('Confirmation modal closed without action.');
+    return;
   }
 
   onConfirm() {

@@ -4,4 +4,10 @@ table tbody tr:last-child td {
 
 .dropdown-item {
     cursor: pointer;
+    background-color: transparent;
+    color: black;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
 }
