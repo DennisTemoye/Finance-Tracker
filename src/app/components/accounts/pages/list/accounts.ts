@@ -230,9 +230,14 @@ export class AccountsComponent implements OnInit {
 
   onConfirm() {
     console.log('Confirmed action for account:', this.newEvent);
+    console.log('Current accounts before deletion:', this.accounts);
+    console.log('Filtered accounts before deletion:', this.filteredAccounts);
+
     const index = this.accounts.indexOf(this.accounts.find((acc) => acc.id === this.newEvent.id)!);
-    if (index !== -1) {
+    console.log('Account index to delete:', index);
+    if (index > -1) {
       this.accounts.splice(index, 1);
+      this.applyFilters();
       this.toast.success('Account deleted successfully!', 'Success');
     }
     this.closeConfirmationModal();
@@ -250,6 +255,8 @@ export class AccountsComponent implements OnInit {
         this.toast.success('Account activated successfully!', 'Success');
       }
     }
+    console.log('Current accounts before deletion:', this.accounts);
+    console.log('Filtered accounts before deletion:', this.filteredAccounts);
     this.closeActivateConfirmationModal();
   }
   closeDeactivateConfirmationModal() {

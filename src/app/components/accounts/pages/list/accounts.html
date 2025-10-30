@@ -42,11 +42,11 @@
             </app-confirmation>
             <app-confirmation [title]="'Are you sure?'" [message]="'Are you sure you want to activate this account?'"
                 [visible]="showActivateConfirmationModal" (cancel)="closeActivateConfirmationModal()"
-                (saveChanges)="onConfirmActivate()">
+                (saveChanges)="onConfirmActivate()" confirmText="Yes, activate">
             </app-confirmation>
             <app-confirmation [title]="'Are you sure?'" [message]="'Are you sure you want to deactivate this account?'"
                 [visible]="showDeactivateConfirmationModal" (cancel)="closeDeactivateConfirmationModal()"
-                (saveChanges)="onConfirmDeactivate()">
+                (saveChanges)="onConfirmDeactivate()" confirmText="Yes, deactivate">
             </app-confirmation>
 
             <app-create-modal [title]="'Add Account'" [formGroup]="accountForm" [visible]="showCreateModal"
