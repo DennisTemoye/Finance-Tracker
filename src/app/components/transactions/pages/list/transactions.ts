@@ -42,14 +42,18 @@ export class TransactionsComponent implements OnInit {
     console.log('Edit transaction:', transaction);
   }
 
-  onDelete(transaction: any) {
-    const index = this.transactions.indexOf(transaction);
+
+  onDelete($event: any) {
+    console.log('Deleting transaction:', $event);
+    const index = this.transactions.indexOf(this.transactions.find((trans) => trans.trans_id === $event.trans_id)!);
+    console.log('Index to delete:', index);
     if (index > -1) {
       this.transactions.splice(index, 1);
+      this.applyFilters();
+      this.toast.success('Transaction deleted successfully!', 'Success');
     }
-    console.log('Delete transaction:', transaction);
-  }
 
+  }
   onSelect($event: any) {
     this.router.navigate(['/transactions', $event.trans_id]);
     return (

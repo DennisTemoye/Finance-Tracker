@@ -16,6 +16,7 @@ import { CreditAccount } from '../../../../shared/components/modal/credit-accoun
 import { DebitAccount } from '../../../../shared/components/modal/debit-account/debit-account';
 import { PriceFormatPipe } from '../../../../shared/price-format-pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { Confirmation } from "../../../../shared/components/modal/confirmation/confirmation";
 
 @Component({
   selector: 'app-accounts',
@@ -29,6 +30,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     DebitAccount,
     PriceFormatPipe,
     NgForOf,
+    Confirmation
   ],
   templateUrl: './accounts.html',
   styleUrl: './accounts.css',
@@ -54,7 +56,8 @@ export class AccountsComponent implements OnInit {
   accountForm!: FormGroup;
   withdrawForm!: FormGroup;
   creditForm!: FormGroup;
-
+  showConfirmationModal: boolean = false;
+  newEvent: any;
   searchTerm: string = '';
   statusFilter: string = '';
 
@@ -85,12 +88,11 @@ export class AccountsComponent implements OnInit {
     });
   }
 
-  onDelete(accounts: any) {
-    const index = this.accounts.indexOf(accounts);
-    if (index > -1) {
-      this.accounts.splice(index, 1);
-    }
-    console.log('Delete account:', accounts);
+
+  onDelete($event: any) {
+    this.newEvent = $event
+    this.showConfirmationModal = true;
+
   }
   onSelect($event: any) {
     this.router.navigate(['/accounts', $event.id]);
@@ -225,5 +227,20 @@ export class AccountsComponent implements OnInit {
     this.searchTerm = '';
     this.statusFilter = '';
     this.filteredAccounts = [...this.accounts];
+  }
+
+  closeConfirmationModal() {
+    this.showConfirmationModal = false;
+  }
+
+  onConfirm() {
+    console.log('Confirmed action for account:', this.newEvent);
+    const index = this.accounts.indexOf(this.accounts.find((acc) => acc.id === this.newEvent.id)!);
+    if (index !== -1) {
+      this.accounts.splice(index, 1);
+      this.toast.success('Account deleted successfully!', 'Success');
+    }
+    this.closeConfirmationModal();
+
   }
 }

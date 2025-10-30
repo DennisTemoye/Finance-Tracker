@@ -151,8 +151,7 @@ export class DashboardComponent implements OnInit {
   }
 
   calculateMonthlyTransactions(transactions: any[]) {
-    const income = [4500, 5200, 4800, 6100, 5800, 6300, 5900];
-    const expenses = [2800, 3100, 2900, 3300, 3000, 3500, 3200];
+
 
     const successful = transactions.filter((t) => t.status === 'Successful');
     const failed = transactions.filter((t) => t.status === 'Failed');
