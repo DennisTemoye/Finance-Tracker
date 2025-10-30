@@ -16,8 +16,14 @@ export class TableComponent {
   @Output() select = new EventEmitter<any>();
   @Output() activate = new EventEmitter<any>();
   @Output() deactivate = new EventEmitter<any>();
+  @Output() confirmDeletion = new EventEmitter<any>();
+  @Output() confirmActivation = new EventEmitter<any>();
+  @Output() confirmDeactivation = new EventEmitter<any>();
   @Input() showActions: boolean = false;
   @Input() enablePagination: boolean = true;
+  @Input() showActivateButton: boolean = true;
+
+
 
   indexOf(row: any) {
     return this.data.indexOf(row);

@@ -1,6 +1,7 @@
 import { NgFor, NgIf, NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-nav-item',
@@ -10,6 +11,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class NavItem {
   routerLink = inject(Router);
+  toast = inject(ToastrService);
   items = [
     { link: '/dashboard', label: 'Dashboard', bgClass: 'primary', icon: 'bi-speedometer2' },
     { link: '/accounts', label: 'Accounts', bgClass: 'info', icon: 'bi-wallet2' },
@@ -24,5 +26,10 @@ export class NavItem {
 
   isActiveRoute(link: string): boolean {
     return this.routerLink.url.includes(link);
+  }
+
+  logout() {
+    this.routerLink.navigate(['/login']);
+    this.toast.success('User logged out successfully');
   }
 }
