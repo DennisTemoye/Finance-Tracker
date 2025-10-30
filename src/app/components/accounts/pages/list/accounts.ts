@@ -60,6 +60,11 @@ export class AccountsComponent implements OnInit {
   newEvent: any;
   searchTerm: string = '';
   statusFilter: string = '';
+  confirmationMessage: string = '';
+  showActivateConfirmationModal: boolean = false
+  showDeactivateConfirmationModal: boolean = false
+
+
 
   onEdit(account: any) {
     console.log('Edit account:', account);
@@ -100,23 +105,13 @@ export class AccountsComponent implements OnInit {
   }
 
   onActivate($event: any) {
-    if (this.accounts.length > 0) {
-      const account = this.accounts.find((account) => account.id === $event.id);
-      if (account) {
-        account.status = 'Active';
-        this.toast.success('Account activated successfully!', 'Success');
-      }
-    }
+    this.newEvent = $event
+    this.showActivateConfirmationModal = true;
   }
 
   onDeactivate($event: any) {
-    if (this.accounts.length > 0) {
-      const account = this.accounts.find((account) => account.id === $event.id);
-      if (account) {
-        account.status = 'Inactive';
-        this.toast.success('Account deactivated successfully!', 'Success');
-      }
-    }
+    this.newEvent = $event
+    this.showDeactivateConfirmationModal = true;
   }
 
   save() {
@@ -242,5 +237,33 @@ export class AccountsComponent implements OnInit {
     }
     this.closeConfirmationModal();
 
+  }
+  closeActivateConfirmationModal() {
+    this.showActivateConfirmationModal = false;
+  }
+  onConfirmActivate() {
+    console.log('Confirmed activation for account:', this.newEvent);
+    if (this.accounts.length > 0) {
+      const account = this.accounts.find((account) => account.id === this.newEvent.id);
+      if (account) {
+        account.status = 'Active';
+        this.toast.success('Account activated successfully!', 'Success');
+      }
+    }
+    this.closeActivateConfirmationModal();
+  }
+  closeDeactivateConfirmationModal() {
+    this.showDeactivateConfirmationModal = false;
+  }
+  onConfirmDeactivate() {
+    console.log('Confirmed deactivation for account:', this.newEvent);
+    if (this.accounts.length > 0) {
+      const account = this.accounts.find((account) => account.id === this.newEvent.id);
+      if (account) {
+        account.status = 'Inactive';
+        this.toast.success('Account deactivated successfully!', 'Success');
+      }
+    }
+    this.closeDeactivateConfirmationModal();
   }
 }

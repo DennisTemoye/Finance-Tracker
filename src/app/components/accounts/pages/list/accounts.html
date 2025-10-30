@@ -36,8 +36,17 @@
                 (delete)="onDelete($event)" (select)="onSelect($event)" (activate)="onActivate($event)"
                 (deactivate)="onDeactivate($event)"></app-table>
 
-            <app-confirmation [title]="'Confirm Action'" [message]="'confirmationMessage'"
-                [visible]="showConfirmationModal" (cancel)="closeConfirmationModal()" (saveChanges)="onConfirm()">
+            <app-confirmation [title]="'Are you sure?'" [message]="'Are you sure you want to delete this account?'"
+                [visible]="showConfirmationModal" (cancel)="closeConfirmationModal()" (saveChanges)="onConfirm()"
+                confirmText="Yes, delete">
+            </app-confirmation>
+            <app-confirmation [title]="'Are you sure?'" [message]="'Are you sure you want to activate this account?'"
+                [visible]="showActivateConfirmationModal" (cancel)="closeActivateConfirmationModal()"
+                (saveChanges)="onConfirmActivate()">
+            </app-confirmation>
+            <app-confirmation [title]="'Are you sure?'" [message]="'Are you sure you want to deactivate this account?'"
+                [visible]="showDeactivateConfirmationModal" (cancel)="closeDeactivateConfirmationModal()"
+                (saveChanges)="onConfirmDeactivate()">
             </app-confirmation>
 
             <app-create-modal [title]="'Add Account'" [formGroup]="accountForm" [visible]="showCreateModal"
@@ -47,10 +56,8 @@
                         <label class="form-label">Name</label>
                         <input type="text" class="form-control" name="name" formControlName="name"
                             placeholder="Enter name" required />
-                        <div *ngIf="
-                accountForm.get('name')?.invalid &&
-                (accountForm.get('name')?.touched || accountForm.get('name')?.dirty)
-              ">
+                        <div
+                            *ngIf="accountForm.get('name')?.invalid && (accountForm.get('name')?.touched || accountForm.get('name')?.dirty)">
                             <small class="text-danger">Name is required.</small>
                         </div>
                     </div>
