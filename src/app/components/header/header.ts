@@ -24,6 +24,6 @@ export class Header implements OnInit {
     window.addEventListener('resize', () => this.checkViewport());
   }
   checkViewport() {
-    this.isMobile = window.innerWidth < 1024; // block below 1024px width
+    this.isMobile = window.innerWidth < 1024;
   }
 }

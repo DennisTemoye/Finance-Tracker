@@ -8,6 +8,7 @@ import { SettingsComponent } from './components/settings/settings';
 import { AccountsRoutes } from './components/accounts/accounts.routes';
 
 export const routes: Routes = [
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
 
   { path: 'dashboard', component: DashboardComponent },
