@@ -1,62 +1,73 @@
 <ng-template #loginPage>
-    <router-outlet></router-outlet>
+  <router-outlet *ngIf="!isLoginPage && !isMobile"></router-outlet>
 </ng-template>
 
-<div *ngIf="!isLoginPage; else loginPage" class="app-layout d-flex">
+<div *ngIf="isMobile && !isLoginPage" class="mobile-blocker">
+  <div class="message-box">
+    <h2>Desktop View Only</h2>
+    <p>This dashboard is optimized for desktop screens.</p>
+    <p>Please open it on a larger device to continue.</p>
+  </div>
+</div>
 
-    <nav
-        class="navbar navbar-dark z-2 border-bottom border-light-subtle bg-white fixed-top px-3 d-flex justify-content-between align-items-center">
-
-
-
-        <button class="btn btn-outline-light d-md-none" type="button" data-bs-toggle="collapse"
-            data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
-            aria-label="Toggle navigation">
-            <i class="bi bi-list"></i>
-        </button>
-        <div class="d-flex align-items-center gap-3 justify-content-end w-100">
-            <div class="d-flex align-items-center gap-2">
-                <div class="dropdown d-flex align-items-center position-relative">
-                    <button class=" btn btn-light btn-sm d-flex align-items-center gap-2" type=" button">
-                        <span class="d-none d-sm-inline-block"> {{ role }}</span>
-                        <i class="bi bi-person-circle fs-4"></i>
-                    </button>
-                    <button type="button" class="btn btn-sm btn-light dropdown-toggle dropdown-toggle-split"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="visually-hidden">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-dark position-absolute top-100 end-100">
-                        <li><a class=" dropdown-item active" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Separated link</a></li>
-                    </ul>
-                </div>
-
-
-            </div>
-
-
+<div *ngIf="!isLoginPage && !isMobile; else loginPage" class="app-layout d-flex">
+  <nav
+    class="navbar navbar-dark z-2 border-bottom border-light-subtle bg-white fixed-top px-3 d-flex justify-content-between align-items-center"
+  >
+    <button
+      class="btn btn-outline-light d-md-none"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#sidebarMenu"
+      aria-controls="sidebarMenu"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <i class="bi bi-list"></i>
+    </button>
+    <div class="d-flex align-items-center gap-3 justify-content-end w-100">
+      <div class="d-flex align-items-center gap-2">
+        <div class="dropdown d-flex align-items-center position-relative">
+          <button class="btn btn-light btn-sm d-flex align-items-center gap-2" type=" button">
+            <span class="d-none d-sm-inline-block"> {{ role }}</span>
+            <i class="bi bi-person-circle fs-4"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-sm btn-light dropdown-toggle dropdown-toggle-split"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <span class="visually-hidden">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-dark position-absolute top-100 end-100">
+            <li><a class="dropdown-item active" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li><a class="dropdown-item" href="#">Separated link</a></li>
+          </ul>
         </div>
-    </nav>
-
-
-    <div class="collapse d-md-block bg-[#f6f6f6] z-2 sidebar " id="sidebarMenu">
-        <nav class="px-2">
-            <div class="border-bottom border-[#f6f6f6]  px-4 d-flex align-items-center" style="height: 60px;">
-
-                <a class="navbar-brand fw-bold  fs-5 text-dark" routerLink="/">FinTrackr</a>
-            </div>
-
-            <app-nav-item></app-nav-item>
-        </nav>
+      </div>
     </div>
+  </nav>
 
-    <main class="content-area px-5">
-        <router-outlet></router-outlet>
-    </main>
+  <div class="collapse d-md-block bg-[#f6f6f6] z-2 sidebar" id="sidebarMenu">
+    <nav class="px-2">
+      <div
+        class="border-bottom border-[#f6f6f6] px-4 d-flex align-items-center"
+        style="height: 60px"
+      >
+        <a class="navbar-brand fw-bold fs-5 text-dark" routerLink="/">FinTrackr</a>
+      </div>
 
+      <app-nav-item></app-nav-item>
+    </nav>
+  </div>
+
+  <main class="content-area px-5">
+    <router-outlet></router-outlet>
+  </main>
 </div>

@@ -1,13 +1,12 @@
-import { NgIf } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
-import { Header } from "./components/header/header";
+import { Router } from '@angular/router';
+import { Header } from './components/header/header';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NgIf, Header],
+  imports: [Header],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App {
   router = inject(Router);
