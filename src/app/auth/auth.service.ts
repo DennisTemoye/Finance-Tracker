@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment.development.ts';
+import { environment } from '../../environments/environment.development.ts';
 
 @Injectable({
   providedIn: 'root',
@@ -10,21 +10,24 @@ export class AuthService {
   private baseUrl = environment.apiUrl;
   private http = inject(HttpClient);
 
-  userLogin(data: { email: string; password: string }) {
+  userLogin(data: {
+    email: string;
+    password: string;
+  }): Observable<{ data: { accessToken: string; refreshToken: string; tokenType: string } }> {
     return this.http.post<{
       data: { accessToken: string; refreshToken: string; tokenType: string };
-    }>(`/auth/login`, data);
+    }>(`${this.baseUrl}/auth/login`, data);
   }
 
   saveToken(token: string): void {
-    localStorage.setItem('access_token', token);
+    localStorage.setItem('authToken', token);
   }
 
   getToken(): string | null {
-    return localStorage.getItem('access_token');
+    return localStorage.getItem('authToken');
   }
 
   logout(): void {
-    localStorage.removeItem('access_token');
+    localStorage.removeItem('authToken');
   }
 }
