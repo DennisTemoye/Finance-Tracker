@@ -99,7 +99,10 @@ export class AccountsComponent implements OnInit {
 
   getAccounts() {
     this.accountService.getAccount().subscribe({
-      next: (res: any) => (this.accounts = res.data),
+      next: (res: any) => {
+        this.accounts = res.data
+        console.log("Res>>>>", res.data)
+      },
       error: (err) => console.error(err),
     });
   }

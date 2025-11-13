@@ -1,3 +1,4 @@
 export const environment = {
-    apiUrl: 'https://commotional-chasmogamic-brittani.ngrok-free.dev'
+    production: true,
+    apiUrl: 'https://code-pay.onrender.com'
 };
