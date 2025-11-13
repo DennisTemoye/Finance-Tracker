@@ -17,6 +17,7 @@ import { DebitAccount } from '../../../../shared/components/modal/debit-account/
 import { PriceFormatPipe } from '../../../../shared/price-format-pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Confirmation } from "../../../../shared/components/modal/confirmation/confirmation";
+import { AccountsService } from '../../../../core/services/accounts.service';
 
 @Component({
   selector: 'app-accounts',
@@ -36,6 +37,8 @@ import { Confirmation } from "../../../../shared/components/modal/confirmation/c
   styleUrl: './accounts.css',
 })
 export class AccountsComponent implements OnInit {
+
+  accountService = inject(AccountsService)
   router = inject(Router);
   toast = inject(ToastrService);
   header = [
@@ -66,11 +69,12 @@ export class AccountsComponent implements OnInit {
 
 
 
+
   onEdit(account: any) {
     console.log('Edit account:', account);
   }
   ngOnInit(): void {
-    this.accounts = this.dataService.getAccounts();
+    this.getAccounts();
     this.filteredAccounts = [...this.accounts];
     this.accountForm = new FormGroup({
       name: new FormControl('', Validators.required),
@@ -90,6 +94,13 @@ export class AccountsComponent implements OnInit {
       name: new FormControl('', Validators.required),
       amount: new FormControl('', [Validators.required, Validators.min(1)]),
       method: new FormControl('', Validators.required),
+    });
+  }
+
+  getAccounts() {
+    this.accountService.getAccount().subscribe({
+      next: (res: any) => (this.accounts = res.data),
+      error: (err) => console.error(err),
     });
   }
 
@@ -273,4 +284,7 @@ export class AccountsComponent implements OnInit {
     }
     this.closeDeactivateConfirmationModal();
   }
+
+
+
 }
