@@ -13,7 +13,7 @@ export class AuthService {
   userLogin(data: { email: string; password: string }) {
     return this.http.post<{
       data: { accessToken: string; refreshToken: string; tokenType: string };
-    }>(`/auth/login`, data);
+    }>(`/auth/loogin`, data);
   }
 
   saveToken(token: string): void {
