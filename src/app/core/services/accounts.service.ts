@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +7,7 @@ import { environment } from '../../../environments/environment.development';
 export class AccountsService {
 
   getAccount() {
-    return this.http.get('/admin/users');
+    return this.http.get('/users');
   }
 
   private http = inject(HttpClient);
