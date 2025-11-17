@@ -3,12 +3,12 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.prod';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
-export class AccountsService {
-  getAccount() {
-    return this.http.get('/admin/users');
-  }
+export class TransactionsService {
+    getTransactions() {
+        return this.http.get('/admin/allTransactions');
+    }
 
-  private http = inject(HttpClient);
+    private http = inject(HttpClient);
 }

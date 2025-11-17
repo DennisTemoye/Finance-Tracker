@@ -5,12 +5,17 @@ import { SampleDataService } from '../../../../shared/data/sample-data';
 import { CreateModal } from '../../../../shared/components/modal/create/create';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
-import { NgForOf } from '@angular/common';
+import { AsyncPipe, NgForOf } from '@angular/common';
 import { Confirmation } from "../../../../shared/components/modal/confirmation/confirmation";
+import { TransactionsService } from '../../../../core/services/transactions.service';
+import { Store } from '@ngrx/store';
+import { loadTransactions } from '../../../../state/transactions/transactions.actions';
+import { selectAllTransactions } from '../../../../state/transactions/transactions.selectors';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-transactions',
-  imports: [TableComponent, CreateModal, FormsModule, NgForOf, Confirmation],
+  imports: [TableComponent, CreateModal, FormsModule, NgForOf, Confirmation, AsyncPipe],
   templateUrl: './transactions.html',
   styleUrl: './transactions.css',
 })
@@ -24,12 +29,13 @@ export class TransactionsComponent implements OnInit {
     { key: 'status', label: 'Status' },
     { key: 'date', label: 'Date' },
   ];
-  transactions: any[] = [];
+  public transactions: any[] = [];
   filteredTransactions: any[] = [];
   newTransaction: any = {};
   selectedAccountUser: any = {};
   dataService = inject(SampleDataService);
   accounts: any[] = this.dataService.getAccounts();
+  transactionsService = inject(TransactionsService);
   showCreateModal: boolean = false;
 
   searchTerm: string = '';
@@ -38,11 +44,27 @@ export class TransactionsComponent implements OnInit {
   showActivateConfirmationModal: boolean = false
   showDeactivateConfirmationModal: boolean = false
   newEvent: any;
+  store = inject(Store);
   showConfirmationModal: boolean = false;
+  t$: Observable<any[]> = this.store.select(selectAllTransactions);
 
   ngOnInit(): void {
-    this.transactions = this.dataService.getTransactions();
-    this.filteredTransactions = [...this.transactions];
+    this.getTransactions()
+    console.log(this.t$)
+
+
+  }
+
+
+  getTransactions() {
+    this.transactionsService.getTransactions().subscribe({
+      next: (res: any) => {
+        this.transactions = res.data
+        this.store.dispatch(loadTransactions({ transactions: this.transactions }))
+        this.filteredTransactions = [this.transactions];
+      },
+      error: (err) => console.error(err)
+    })
   }
   onEdit(transaction: any) {
     console.log('Edit transaction:', transaction);

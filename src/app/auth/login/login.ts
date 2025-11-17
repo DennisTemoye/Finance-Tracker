@@ -38,8 +38,8 @@ export class LoginComponent implements OnInit {
         console.log(res);
         this.authService.saveToken(res.data.accessToken);
 
-        this.toastr.success('Login successful!', 'Welcome back!');
         this.router.navigate(['/dashboard']);
+        this.toastr.success('Login successful!', 'Welcome back!');
       },
       error: (err) => {
         console.log(err.error.message);

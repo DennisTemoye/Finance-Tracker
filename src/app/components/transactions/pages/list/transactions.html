@@ -31,7 +31,7 @@
         </div>
 
         <div class="rounded p-4 bg-white mt-2">
-            <app-table [columns]="columns" [data]="filteredTransactions" [showActions]="true" (edit)="onEdit($event)"
+            <app-table [columns]="columns" [data]="(t$ | async) ?? []" [showActions]="true" (edit)="onEdit($event)"
                 (delete)="onDelete($event)" (select)="onSelect($event)" [showActivateButton]="false"></app-table>
         </div>
 

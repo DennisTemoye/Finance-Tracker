@@ -1,5 +1,4 @@
 export const environment = {
-  production: false,
-
-  apiUrl: 'https://code-pay.onrender.com',
+    production: false,
+    apiUrl: 'https://code-pay.onrender.com',
 };

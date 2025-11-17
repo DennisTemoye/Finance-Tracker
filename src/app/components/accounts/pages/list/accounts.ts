@@ -43,7 +43,7 @@ export class AccountsComponent implements OnInit {
   toast = inject(ToastrService);
   header = [
     { key: 'index', label: 'No' },
-    { key: 'name', label: 'Name' },
+    { key: 'fullName', label: 'Name' },
     { key: 'email', label: 'Email' },
     { key: 'phone', label: 'Phone' },
     { key: 'amount', label: 'Balance' },
@@ -75,7 +75,7 @@ export class AccountsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getAccounts();
-    this.filteredAccounts = [...this.accounts];
+
     this.accountForm = new FormGroup({
       name: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -101,7 +101,8 @@ export class AccountsComponent implements OnInit {
     this.accountService.getAccount().subscribe({
       next: (res: any) => {
         this.accounts = res.data
-        console.log("Res>>>>", res.data)
+        this.filteredAccounts = [...this.accounts];
+
       },
       error: (err) => console.error(err),
     });

@@ -12,6 +12,8 @@ import { provideToastr } from 'ngx-toastr';
 import { ReactiveFormsModule } from '@angular/forms';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { AuthInterceptor } from './core/interceptors/auth-interceptor';
+import { provideStore } from '@ngrx/store';
+import { transactionsReducer } from './state/transactions/transactions.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -28,5 +30,8 @@ export const appConfig: ApplicationConfig = {
     ReactiveFormsModule,
     provideCharts(withDefaultRegisterables()),
     provideHttpClient(withInterceptors([AuthInterceptor])),
+    provideStore({
+      transactions: transactionsReducer
+    })
   ],
 };
