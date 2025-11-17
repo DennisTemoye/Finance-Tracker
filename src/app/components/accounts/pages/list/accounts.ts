@@ -16,7 +16,7 @@ import { CreditAccount } from '../../../../shared/components/modal/credit-accoun
 import { DebitAccount } from '../../../../shared/components/modal/debit-account/debit-account';
 import { PriceFormatPipe } from '../../../../shared/price-format-pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { Confirmation } from "../../../../shared/components/modal/confirmation/confirmation";
+import { Confirmation } from '../../../../shared/components/modal/confirmation/confirmation';
 import { AccountsService } from '../../../../core/services/accounts.service';
 
 @Component({
@@ -31,23 +31,22 @@ import { AccountsService } from '../../../../core/services/accounts.service';
     DebitAccount,
     PriceFormatPipe,
     NgForOf,
-    Confirmation
+    Confirmation,
   ],
   templateUrl: './accounts.html',
   styleUrl: './accounts.css',
 })
 export class AccountsComponent implements OnInit {
-
-  accountService = inject(AccountsService)
+  accountService = inject(AccountsService);
   router = inject(Router);
   toast = inject(ToastrService);
   header = [
     { key: 'index', label: 'No' },
     { key: 'fullName', label: 'Name' },
     { key: 'email', label: 'Email' },
-    { key: 'phone', label: 'Phone' },
-    { key: 'amount', label: 'Balance' },
-    { key: 'status', label: 'Status' },
+    { key: 'phoneNumber', label: 'Phone' },
+    { key: 'balance', label: 'Balance' },
+    { key: 'userStatus', label: 'Status' },
   ];
   accounts: any[] = [];
   filteredAccounts: any[] = [];
@@ -64,11 +63,8 @@ export class AccountsComponent implements OnInit {
   searchTerm: string = '';
   statusFilter: string = '';
   confirmationMessage: string = '';
-  showActivateConfirmationModal: boolean = false
-  showDeactivateConfirmationModal: boolean = false
-
-
-
+  showActivateConfirmationModal: boolean = false;
+  showDeactivateConfirmationModal: boolean = false;
 
   onEdit(account: any) {
     console.log('Edit account:', account);
@@ -100,19 +96,16 @@ export class AccountsComponent implements OnInit {
   getAccounts() {
     this.accountService.getAccount().subscribe({
       next: (res: any) => {
-        this.accounts = res.data
+        this.accounts = res.data;
         this.filteredAccounts = [...this.accounts];
-
       },
       error: (err) => console.error(err),
     });
   }
 
-
   onDelete($event: any) {
-    this.newEvent = $event
+    this.newEvent = $event;
     this.showConfirmationModal = true;
-
   }
   onSelect($event: any) {
     this.router.navigate(['/accounts', $event.id]);
@@ -120,12 +113,12 @@ export class AccountsComponent implements OnInit {
   }
 
   onActivate($event: any) {
-    this.newEvent = $event
+    this.newEvent = $event;
     this.showActivateConfirmationModal = true;
   }
 
   onDeactivate($event: any) {
-    this.newEvent = $event
+    this.newEvent = $event;
     this.showDeactivateConfirmationModal = true;
   }
 
@@ -256,7 +249,6 @@ export class AccountsComponent implements OnInit {
       this.toast.success('Account deleted successfully!', 'Success');
     }
     this.closeConfirmationModal();
-
   }
   closeActivateConfirmationModal() {
     this.showActivateConfirmationModal = false;
@@ -288,7 +280,4 @@ export class AccountsComponent implements OnInit {
     }
     this.closeDeactivateConfirmationModal();
   }
-
-
-
 }

@@ -23,9 +23,8 @@ export class TransactionsComponent implements OnInit {
   router = inject(Router);
   toast = inject(ToastrService);
   columns = [
-    { key: 'name', label: 'Name' },
+    { key: 'senderName', label: 'Name' },
     { key: 'amount', label: 'Amount' },
-    { key: 'method', label: 'Method' },
     { key: 'status', label: 'Status' },
     { key: 'date', label: 'Date' },
   ];
