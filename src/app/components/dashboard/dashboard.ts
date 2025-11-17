@@ -7,7 +7,6 @@ import { TableComponent } from '../../shared/components/table/table';
 import { Router } from '@angular/router';
 import { SampleDataService } from '../../shared/data/sample-data';
 import { PriceFormatPipe } from '../../shared/price-format-pipe';
-import { TransactionsComponent } from '../transactions/pages/list/transactions';
 @Component({
   selector: 'app-dashboard',
   imports: [Card, NgForOf, BaseChartDirective, TableComponent],
@@ -28,9 +27,7 @@ export class DashboardComponent implements OnInit {
   transactions: any[] = [];
   priceFormat = new PriceFormatPipe();
   dataService = inject(SampleDataService);
-  transactionsData = inject(TransactionsComponent);
   ngOnInit(): void {
-    console.log("Tra>>>>>", this.transactionsData)
     this.transactions = this.dataService.getTransactions().slice(0, 5);
     this.updateChartData();
   }
@@ -153,8 +150,6 @@ export class DashboardComponent implements OnInit {
   }
 
   calculateMonthlyTransactions(transactions: any[]) {
-
-
     const successful = transactions.filter((t) => t.status === 'Successful');
     const failed = transactions.filter((t) => t.status === 'Failed');
 

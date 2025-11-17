@@ -6,7 +6,7 @@ import { CreateModal } from '../../../../shared/components/modal/create/create';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { AsyncPipe, NgForOf } from '@angular/common';
-import { Confirmation } from "../../../../shared/components/modal/confirmation/confirmation";
+import { Confirmation } from '../../../../shared/components/modal/confirmation/confirmation';
 import { TransactionsService } from '../../../../core/services/transactions.service';
 import { Store } from '@ngrx/store';
 import { loadTransactions } from '../../../../state/transactions/transactions.actions';
@@ -41,37 +41,38 @@ export class TransactionsComponent implements OnInit {
   searchTerm: string = '';
   statusFilter: string = '';
   confirmationMessage: string = '';
-  showActivateConfirmationModal: boolean = false
-  showDeactivateConfirmationModal: boolean = false
+  showActivateConfirmationModal: boolean = false;
+  showDeactivateConfirmationModal: boolean = false;
   newEvent: any;
   store = inject(Store);
   showConfirmationModal: boolean = false;
   t$: Observable<any[]> = this.store.select(selectAllTransactions);
 
   ngOnInit(): void {
-    this.getTransactions()
-    console.log(this.t$)
-
-
+    this.getTransactions();
+    console.log(this.t$);
   }
-
 
   getTransactions() {
     this.transactionsService.getTransactions().subscribe({
       next: (res: any) => {
-        this.transactions = res.data
-        this.store.dispatch(loadTransactions({ transactions: this.transactions }))
-        this.filteredTransactions = [this.transactions];
+        const data = res?.data ?? res; // adjust if your array is somewhere else, e.g. res.transactions
+        this.transactions = Array.isArray(data?.transactions) ? data.transactions : [];
+
+        this.store.dispatch(loadTransactions({ transactions: this.transactions }));
+        this.filteredTransactions = [...this.transactions];
+        this.applyFilters();
+        console.log('Transactions>>>>', this.filteredTransactions);
       },
-      error: (err) => console.error(err)
-    })
+      error: (err) => console.error(err),
+    });
   }
   onEdit(transaction: any) {
     console.log('Edit transaction:', transaction);
   }
 
   onDelete($event: any): void {
-    this.newEvent = $event
+    this.newEvent = $event;
     this.showConfirmationModal = true;
     console.log('Requesting delete for transaction:', $event);
     console.log('Transaction to delete:', this.showConfirmationModal);
@@ -136,24 +137,32 @@ export class TransactionsComponent implements OnInit {
 
     if (this.searchTerm.trim()) {
       filtered = filtered.filter(
-        (transaction) =>
-          transaction.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          transaction.method.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          transaction.phone.toLowerCase().includes(this.searchTerm.toLowerCase())
+        (transaction: any) =>
+          (transaction.status || '')
+            .toString()
+            .toLowerCase()
+            .includes(this.searchTerm.toLowerCase())
+        //     transaction.method.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        //     transaction.phone.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
 
     if (this.statusFilter) {
-      filtered = filtered.filter((transaction) => transaction.status === this.statusFilter);
+      const statusFilterLower = this.statusFilter.toLowerCase();
+      filtered = filtered.filter(
+        (transaction: any) =>
+          transaction.status && transaction.status.toString().toLowerCase() === statusFilterLower
+      );
     }
 
+    console.log('filtered', filtered);
     this.filteredTransactions = filtered;
   }
 
   clearFilters() {
     this.searchTerm = '';
     this.statusFilter = '';
-    this.filteredTransactions = [...this.transactions];
+    this.applyFilters();
   }
 
   closeConfirmationModal() {
@@ -165,7 +174,9 @@ export class TransactionsComponent implements OnInit {
   }
 
   onConfirm() {
-    const index = this.transactions.indexOf(this.transactions.find((trans) => trans.trans_id === this.newEvent.trans_id)!);
+    const index = this.transactions.indexOf(
+      this.transactions.find((trans) => trans.trans_id === this.newEvent.trans_id)!
+    );
     console.log('Transaction index to delete:', index);
     if (index > -1) {
       this.transactions.splice(index, 1);
@@ -173,7 +184,6 @@ export class TransactionsComponent implements OnInit {
       this.toast.success('Transaction deleted successfully!', 'Success');
     }
     this.closeConfirmationModal();
-
   }
   closeActivateConfirmationModal() {
     this.showActivateConfirmationModal = false;

@@ -27,6 +27,8 @@ export class LoginComponent implements OnInit {
 
   login(e?: Event): void {
     const { email, password } = this.loginForm.value;
+    console.log(email);
+    console.log(password);
     e?.preventDefault();
     if (email === '' && password === '') {
       this.toastr.error('Invalid Cred');
