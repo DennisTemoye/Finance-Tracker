@@ -1,15 +1,16 @@
 export interface Transaction {
-    name: string;
-    amount: number;
-    method: string;
-    status: string;
-    date: string;
+  transactionId: string;
+  name: string;
+  amount: number;
+  method: string;
+  status: string;
+  date: string;
 }
 
 export interface TransactionsState {
-    transactions: Transaction[];
+  transactions: Transaction[];
 }
 
 export const initialState: TransactionsState = {
-    transactions: [],
-}
+  transactions: [],
+};

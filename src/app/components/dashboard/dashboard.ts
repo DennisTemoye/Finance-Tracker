@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Card } from '../../shared/components/card/card';
 import { NgForOf } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
@@ -7,14 +7,32 @@ import { TableComponent } from '../../shared/components/table/table';
 import { Router } from '@angular/router';
 import { SampleDataService } from '../../shared/data/sample-data';
 import { PriceFormatPipe } from '../../shared/price-format-pipe';
+import { DashboardService } from '../../core/services/dashboard.service';
+import { TransactionsService } from '../../core/services/transactions.service';
+import { firstValueFrom, Observable, Subscription } from 'rxjs';
+import { loadTransactions } from '../../state/transactions/transactions.actions';
+import { Store } from '@ngrx/store';
+import { selectAllTransactions } from '../../state/transactions/transactions.selectors';
+import { Transaction } from '../../state/transactions/transactions.state';
+
+export interface IDashboardStats {
+  monthlyIncome: number;
+  monthlyExpenses: number;
+  totalSystemBalance: number;
+  totalUser: number;
+}
 @Component({
   selector: 'app-dashboard',
   imports: [Card, NgForOf, BaseChartDirective, TableComponent],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   router = inject(Router);
+  private store = inject(Store);
+  private dataService = inject(SampleDataService);
+  private dashboardService = inject(DashboardService);
+  private transactionsService = inject(TransactionsService);
   columns = [
     { key: 'index', label: 'No' },
     { key: 'name', label: 'Name' },
@@ -24,11 +42,19 @@ export class DashboardComponent implements OnInit {
     { key: 'status', label: 'Status' },
     { key: 'date', label: 'Date' },
   ];
-  transactions: any[] = [];
+  stats: IDashboardStats | null = null;
+  transactions$!: Observable<Transaction[]>;
+  transactions: Transaction[] = [];
+  private transactionsSub?: Subscription;
   priceFormat = new PriceFormatPipe();
-  dataService = inject(SampleDataService);
-  ngOnInit(): void {
-    this.transactions = this.dataService.getTransactions().slice(0, 5);
+  async ngOnInit(): Promise<void> {
+    await this.loadDashboardStats();
+    this.transactions$ = this.store.select(selectAllTransactions);
+    this.transactionsSub = this.transactions$.subscribe((transactions) => {
+      console.log(transactions);
+      this.transactions = transactions;
+    });
+    await this.dispatchTransactions();
     this.updateChartData();
   }
 
@@ -47,18 +73,23 @@ export class DashboardComponent implements OnInit {
     return { monthlyIncome, monthlyExpenses };
   }
 
-  statistics = [
-    { label: 'Total Accounts', value: this.dataService.getAccounts().length },
-    { label: 'Total Balance', value: this.priceFormat.transform(this.totalBalance) },
-    {
-      label: 'Monthly Expenses',
-      value: this.priceFormat.transform(this.calculateMonthlyStats().monthlyExpenses),
-    },
-    {
-      label: 'Monthly Income',
-      value: this.priceFormat.transform(this.calculateMonthlyStats().monthlyIncome),
-    },
-  ];
+  get statistics() {
+    return [
+      { label: 'Total Accounts', value: this.stats?.totalUser ?? 0 },
+      {
+        label: 'Total Balance',
+        value: this.priceFormat.transform(this.stats?.totalSystemBalance ?? 0),
+      },
+      {
+        label: 'Monthly Expenses',
+        value: this.priceFormat.transform(this.stats?.monthlyExpenses ?? 0),
+      },
+      {
+        label: 'Monthly Income',
+        value: this.priceFormat.transform(this.stats?.monthlyIncome ?? 0),
+      },
+    ];
+  }
 
   public barChartLegend = true;
   public barChartPlugins = [];
@@ -181,21 +212,45 @@ export class DashboardComponent implements OnInit {
     };
   }
 
-  onEdit(item: any) {
+  onEdit(item: Transaction) {
     console.log('Edit action triggered for:', item);
   }
 
-  onDelete(transactions: any) {
-    const index = this.transactions.indexOf(transactions);
+  onDelete(transaction: Transaction) {
+    const index = this.transactions.indexOf(transaction);
     if (index > -1) {
       this.transactions.splice(index, 1);
     }
-    console.log('Delete transaction:', transactions);
+    console.log('Delete transaction:', transaction);
   }
-  onSelect($event: any) {
-    this.router.navigate(['/transactions', $event.trans_id]);
+  onSelect(event: { trans_id: string }) {
+    this.router.navigate(['/transactions', event.trans_id]);
     console.log(
-      this.transactions.find((item) => item.trans_id === $event.trans_id)?.trans_id || null
+      this.transactions.find((item: any) => item.trans_id === event.trans_id)?.transactionId || null
     );
+  }
+
+  private async loadDashboardStats(): Promise<void> {
+    try {
+      const response = await firstValueFrom(this.dashboardService.getDashboardStats());
+      this.stats = response.data;
+    } catch (error) {
+      console.error('Failed to load dashboard stats', error);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.transactionsSub?.unsubscribe();
+  }
+
+  private async dispatchTransactions(): Promise<void> {
+    try {
+      const response = await firstValueFrom(this.transactionsService.getTransactions());
+      const transactions =
+        (response as { data?: Transaction[] }).data ?? (response as Transaction[]);
+      this.store.dispatch(loadTransactions({ transactions }));
+    } catch (error) {
+      console.error('Failed to load transactions', error);
+    }
   }
 }

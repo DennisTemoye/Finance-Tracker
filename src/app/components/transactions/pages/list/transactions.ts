@@ -89,9 +89,10 @@ export class TransactionsComponent implements OnInit {
 
   // }
   onSelect($event: any) {
-    this.router.navigate(['/transactions', $event.trans_id]);
+    this.router.navigate(['/transactions', $event.transactionId]);
     return (
-      this.transactions.find((transaction) => transaction.trans_id === $event.trans_id) || null
+      this.transactions.find((transaction) => transaction.transactionId === $event.transactionId) ||
+      null
     );
   }
 
